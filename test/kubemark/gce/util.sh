@@ -91,7 +91,7 @@ function delete-kubemark-master {
   # shellcheck disable=SC2030,SC2031
   (
     export CLUSTER_NAME="${CLUSTER_NAME}-kubemark"
-    export KUBE_GCE_INSTANCE_PREFIX="${KUBE_GCE_INSTANCE_PREFIX}-kubemark"
+    export KUBE_GCE_INSTANCE_PREFIX="${KUBE_GCE_INSTANCE_PREFIX:-e2e-test-${USER}}-kubemark"
 
     export KUBE_DELETE_NETWORK=false
     # Even if the "real cluster" is private, we shouldn't manage cloud nat.
