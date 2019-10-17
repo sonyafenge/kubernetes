@@ -42,7 +42,7 @@ function create-kubemark-master {
     export KUBECONFIG="${RESOURCE_DIRECTORY}/kubeconfig.kubemark"
     export CLUSTER_NAME="${CLUSTER_NAME}-kubemark"
     export KUBE_CREATE_NODES=false
-    export KUBE_GCE_INSTANCE_PREFIX="${KUBE_GCE_INSTANCE_PREFIX}-kubemark"
+    export KUBE_GCE_INSTANCE_PREFIX="${KUBE_GCE_INSTANCE_PREFIX:-e2e-test-${USER}}-kubemark"
 
     # Even if the "real cluster" is private, we shouldn't manage cloud nat.
     export KUBE_GCE_PRIVATE_CLUSTER=false
