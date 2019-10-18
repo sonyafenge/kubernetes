@@ -15,15 +15,16 @@
 # limitations under the License.
 
 export KUBERNETES_PROVIDER="kubemark"
-export KUBE_CONFIG_FILE="config-default.sh"
+export KUBE_CONFIG_FILE="config-test.sh"
 
 KUBE_ROOT=$(dirname "${BASH_SOURCE[0]}")/../..
 
 # We need an absolute path to KUBE_ROOT
 ABSOLUTE_ROOT=$(readlink -f "${KUBE_ROOT}")
 
-source "${KUBE_ROOT}/cluster/kubemark/util.sh"
-
+source "${KUBE_ROOT}/cluster/kubemark/${CLOUD_PROVIDER}/util.sh"
+export CLUSTER_NAME="${CLUSTER_NAME}-kubemark"
+export MASTER_NAME="${CLUSTER_NAME}-master"
 echo "Kubemark master name: ${MASTER_NAME}"
 
 detect-master
