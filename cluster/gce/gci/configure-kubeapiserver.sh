@@ -273,6 +273,9 @@ function start-kube-apiserver {
     fi
   fi
 
+  params+=" --profiling=true"
+  params+=" --contention-profiling=true"
+  
   local webhook_authn_config_mount=""
   local webhook_authn_config_volume=""
   if [[ -n "${GCP_AUTHN_URL:-}" ]]; then
