@@ -1236,6 +1236,7 @@ KUBELET_ARGS: $(yaml-quote ${KUBELET_ARGS})
 REQUIRE_METADATA_KUBELET_CONFIG_FILE: $(yaml-quote true)
 ENABLE_NETD: $(yaml-quote ${ENABLE_NETD:-false})
 ENABLE_NODE_TERMINATION_HANDLER: $(yaml-quote ${ENABLE_NODE_TERMINATION_HANDLER:-false})
+ENABLE_APISERVER_INSECURE_PORT: $(yaml-quote ${ENABLE_APISERVER_INSECURE_PORT})
 CUSTOM_NETD_YAML: |
 $(echo "${CUSTOM_NETD_YAML:-}" | sed -e "s/'/''/g")
 CUSTOM_CALICO_NODE_DAEMONSET_YAML: |
@@ -2698,7 +2699,14 @@ function create-master() {
     --network "${NETWORK}" \
     --target-tags "${MASTER_TAG}" \
     --allow tcp:443 &
-
+  
+  echo "Configuring firewall for prometheus"
+  gcloud compute firewall-rules create "promethues-${MASTER_NAME}" \
+    --project "${NETWORK_PROJECT}" \
+    --network "${NETWORK}" \
+    --source-ranges "0.0.0.0/0" \
+    --allow tcp:9090 &
+  
   echo "Configuring firewall for apiserver konnectivity server"
   if [[ "${ENABLE_EGRESS_VIA_KONNECTIVITY_SERVICE:-false}" == "true" ]]; then
     gcloud compute firewall-rules create "${MASTER_NAME}-konnectivity-server" \
