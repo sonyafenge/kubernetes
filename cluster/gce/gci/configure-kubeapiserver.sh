@@ -325,6 +325,8 @@ function start-kube-apiserver {
   authorization_mode="Node,${authorization_mode}"
   params+=" --authorization-mode=${authorization_mode}"
 
+  params+=" --max-mutating-requests-inflight=20000 --max-requests-inflight=40000"
+  
   local csc_config_mount=""
   local csc_config_volume=""
   local default_konnectivity_socket_vol=""
